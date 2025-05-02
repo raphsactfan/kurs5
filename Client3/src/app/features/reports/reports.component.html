@@ -1,0 +1,46 @@
+<div class="report-wrapper">
+  <div class="top-bar">
+    <button class="back-btn" (click)="goToMain()">← На главную</button>
+    <h2>Отчёт по продажам</h2>
+  </div>
+
+  <div class="filter-controls">
+    <label for="date">Выберите дату:</label>
+    <input
+      id="date"
+      type="date"
+      [(ngModel)]="selectedDate"
+      (ngModelChange)="loadReport()"
+    />
+  </div>
+
+  <div *ngIf="report.length > 0">
+    <div id="reportContent">
+      <p class="report-date"><strong>Отчет по продажам за </strong> {{ selectedDate }}</p>
+      <table class="report-table">
+        <thead>
+        <tr>
+          <th>Товар</th>
+          <th>Кол-во</th>
+          <th>Сумма</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of report">
+          <td>{{ item.productName }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.total.toFixed(2) }} BYN</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="2"><strong>Итого</strong></td>
+          <td><strong>{{ totalSum.toFixed(2) }} BYN</strong></td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <button class="pdf-btn" (click)="downloadPDF()">Скачать PDF</button>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="top-bar">
+    <button class="back-btn" (click)="goToMain()">← На главную</button>
+    <h2>Товары</h2>
+  </div>
+
+  <div class="top-bar">
+    <input [(ngModel)]="search" placeholder="Поиск по названию товара" />
+    <select [(ngModel)]="sortBy">
+      <option value="">Без сортировки</option>
+      <option value="name">По названию</option>
+      <option value="price">По цене</option>
+      <option value="quantity">По количеству</option>
+    </select>
+    <button (click)="loadProducts()">Применить</button>
+    <button (click)="downloadExcel()">Выгрузить в Excel</button>
+  </div>
+
+  <div class="top-bar">
+    <input [(ngModel)]="newProduct.name" placeholder="Название" class="short-input" />
+    <input type="number" [(ngModel)]="newProduct.quantity" placeholder="Количество" class="short-input" />
+    <input type="number" step="0.01" [(ngModel)]="newProduct.price" placeholder="Цена" class="short-input" />
+    <select [(ngModel)]="newProduct.supplier">
+      <option [ngValue]="null" disabled>Поставщик</option>
+      <option *ngFor="let s of suppliers" [ngValue]="s">{{ s.name }}</option>
+    </select>
+    <select [(ngModel)]="newProduct.category">
+      <option [ngValue]="null" disabled>Категория</option>
+      <option *ngFor="let c of categories" [ngValue]="c">{{ c.name }}</option>
+    </select>
+    <button (click)="addProduct()">Добавить</button>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Название</th>
+      <th>Количество</th>
+      <th>Цена</th>
+      <th>Поставщик</th>
+      <th>Категория</th>
+      <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of products">
+      <td>{{ p.id }}</td>
+
+      <td>
+        <ng-container *ngIf="editingProduct?.id === p.id; else nameView">
+          <input [(ngModel)]="editingProduct!.name" class="table-input" />
+        </ng-container>
+        <ng-template #nameView>{{ p.name }}</ng-template>
+      </td>
+
+      <td>
+        <ng-container *ngIf="editingProduct?.id === p.id; else qtyView">
+          <input type="number" [(ngModel)]="editingProduct!.quantity" class="table-input" />
+        </ng-container>
+        <ng-template #qtyView>{{ p.quantity }}</ng-template>
+      </td>
+
+      <td>
+        <ng-container *ngIf="editingProduct?.id === p.id; else priceView">
+          <input type="number" step="0.01" [(ngModel)]="editingProduct!.price" class="table-input" />
+        </ng-container>
+        <ng-template #priceView>{{ p.price | number: '1.2-2' }}</ng-template>
+      </td>
+
+      <td>
+        <ng-container *ngIf="editingProduct?.id === p.id; else suppView">
+          <select [(ngModel)]="editingProduct!.supplier" class="table-input">
+            <option *ngFor="let s of suppliers" [ngValue]="s">{{ s.name }}</option>
+          </select>
+        </ng-container>
+        <ng-template #suppView>{{ p.supplier.name }}</ng-template>
+      </td>
+
+      <td>
+        <ng-container *ngIf="editingProduct?.id === p.id; else catView">
+          <select [(ngModel)]="editingProduct!.category" class="table-input">
+            <option *ngFor="let c of categories" [ngValue]="c">{{ c.name }}</option>
+          </select>
+        </ng-container>
+        <ng-template #catView>{{ p.category.name }}</ng-template>
+      </td>
+
+      <td class="actions">
+        <ng-container *ngIf="editingProduct?.id === p.id; else actionButtons">
+          <button class="save-btn" (click)="saveProduct()">Сохранить</button>
+          <button class="cancel-btn" (click)="cancelEdit()">Отмена</button>
+        </ng-container>
+        <ng-template #actionButtons>
+          <button class="edit-btn" (click)="editProduct(p)">Редактировать</button>
+          <button class="delete-btn" (click)="deleteProduct(p.id)">Удалить</button>
+        </ng-template>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

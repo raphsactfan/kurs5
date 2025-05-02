@@ -1,0 +1,29 @@
+<div class="auth-container">
+  <div class="auth-header">
+    <h1>TechStore</h1>
+    <p>Добро пожаловать в магазин компьютерной техники</p>
+  </div>
+
+  <div class="auth-tabs">
+    <button (click)="activeForm = 'login'" [class.active]="activeForm === 'login'">Вход</button>
+    <button (click)="activeForm = 'register'" [class.active]="activeForm === 'register'">Регистрация</button>
+  </div>
+
+  <div class="auth-forms">
+    <form class="auth-form" *ngIf="activeForm === 'login'" (ngSubmit)="onLogin()">
+      <input type="text" placeholder="Логин" [(ngModel)]="login" name="login" required />
+      <input type="password" placeholder="Пароль" [(ngModel)]="password" name="password" required />
+      <button type="submit">Войти</button>
+      <p *ngIf="loginError" style="color: red">{{ loginError }}</p>
+    </form>
+
+    <form *ngIf="activeForm === 'register'" class="auth-form" (ngSubmit)="onRegister()">
+      <input type="text" placeholder="Логин" [(ngModel)]="login" name="reg_login" required />
+      <input type="password" placeholder="Пароль" [(ngModel)]="password" name="reg_password" required />
+      <input type="password" placeholder="Повторите пароль" [(ngModel)]="registerPasswordConfirm" name="confirm_password" required />
+      <button type="submit">Зарегистрироваться</button>
+      <p *ngIf="registerError" style="color: red">{{ registerError }}</p>
+    </form>
+
+  </div>
+</div>

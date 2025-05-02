@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="top-bar">
+    <button class="back-btn" (click)="goToMain()">← На главную</button>
+    <h2>Статистика</h2>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-container">
+      <h3>Товары по категориям</h3>
+      <canvas id="categoryChart"></canvas>
+      <button class="pdf-btn" (click)="downloadChartAsPDF('categoryChart', 'Товары по категориям')">
+        Скачать в PDF
+      </button>
+    </div>
+
+    <div class="chart-container">
+      <h3>Товары по поставщикам</h3>
+      <canvas id="supplierChart"></canvas>
+      <button class="pdf-btn" (click)="downloadChartAsPDF('supplierChart', 'Товары по поставщикам')">
+        Скачать в PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-container">
+      <h3>ТОП пользователей по заказам</h3>
+      <canvas id="topUsersChart"></canvas>
+      <button class="pdf-btn" (click)="downloadChartAsPDF('topUsersChart', 'ТОП пользователей по заказам')">
+        Скачать в PDF
+      </button>
+    </div>
+
+    <div class="chart-container">
+      <h3>Продажи по дням</h3>
+      <canvas id="dailySalesChart"></canvas>
+      <button class="pdf-btn" (click)="downloadChartAsPDF('dailySalesChart', 'Продажи по дням')">
+        Скачать в PDF
+      </button>
+    </div>
+  </div>
+
+</div>

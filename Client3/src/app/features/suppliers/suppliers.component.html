@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="top-bar">
+    <button class="back-btn" (click)="goToMain()">← На главную</button>
+    <h2>Поставщики</h2>
+  </div>
+
+  <div class="top-bar">
+    <input [(ngModel)]="search" placeholder="Поиск по поставщику или адресу" />
+    <select [(ngModel)]="sortBy">
+      <option value="">Без сортировки</option>
+      <option value="name">По названию</option>
+      <option value="representative">По представителю</option>
+      <option value="city">По городу</option>
+      <option value="country">По стране</option>
+    </select>
+    <button (click)="loadSuppliers()">Применить</button>
+  </div>
+
+  <div class="top-bar">
+    <input [(ngModel)]="newSupplier.name" placeholder="Название" class="short-input" />
+    <input [(ngModel)]="newSupplier.representative" placeholder="Представитель" class="short-input" />
+    <input [(ngModel)]="newSupplier.phone" placeholder="Телефон" class="short-input" />
+    <input [(ngModel)]="newSupplier.address!.country" placeholder="Страна" class="short-input" />
+    <input [(ngModel)]="newSupplier.address!.city" placeholder="Город" class="short-input" />
+    <input [(ngModel)]="newSupplier.address!.street" placeholder="Улица" class="short-input" />
+    <button (click)="addSupplier()">Добавить</button>
+  </div>
+
+  <ul>
+    <li *ngFor="let s of suppliers">
+      <ng-container *ngIf="editingSupplier?.id === s.id; else viewMode">
+        <input [(ngModel)]="editingSupplier!.name" placeholder="Название"/>
+        <input [(ngModel)]="editingSupplier!.representative" placeholder="Преставитель"/>
+        <input [(ngModel)]="editingSupplier!.phone" placeholder="Телефон"/>
+        <input [(ngModel)]="editingSupplier!.address.country" placeholder="Страна" />
+        <input [(ngModel)]="editingSupplier!.address.city" placeholder="Город" />
+        <input [(ngModel)]="editingSupplier!.address.street" placeholder="Улица" />
+        <button (click)="saveSupplier()">Сохранить</button>
+        <button class="cancel-btn" (click)="cancelEdit()">Отмена</button>
+      </ng-container>
+
+      <ng-template #viewMode>
+        <div class="supplier-row">
+          <div class="supplier-info">
+            <div><strong>{{ s.name }}</strong></div>
+            <div>{{ s.representative }}</div>
+            <div>{{ s.phone }}</div>
+            <div>{{ s.address.city }}, {{ s.address.street }}, {{ s.address.country }}</div>
+          </div>
+          <div class="supplier-actions">
+            <button class="edit-btn" (click)="editSupplier(s)">Редактировать</button>
+            <button class="delete-btn" (click)="deleteSupplier(s.id)">Удалить</button>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,36 @@
+<div class="cart-page">
+  <h2>Корзина</h2>
+
+  <div class="nav-buttons">
+    <button class="main-btn" (click)="goToMain()">На главную</button>
+    <button class="catalog-btn" (click)="goToCatalog()">В каталог</button>
+  </div>
+
+  <table class="cart-table" *ngIf="cart.length > 0">
+    <thead>
+    <tr>
+      <th>Название</th>
+      <th>Цена</th>
+      <th>Количество</th>
+      <th>Сумма</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of cart; index as i">
+      <td>{{ item.product.name }}</td>
+      <td>{{ item.product.price }} BYN</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.product.price * item.quantity | number: '1.2-2' }} BYN</td>
+      <td><button (click)="removeItem(i)">Удалить</button></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="cart.length === 0" class="empty-msg">Корзина пуста</p>
+
+  <div class="cart-footer" *ngIf="cart.length > 0">
+    <p class="total">Итого: {{ getTotal() | number: '1.2-2' }} BYN</p>
+    <button class="order-btn" (click)="goToOrder()">Оформить заказ</button>
+  </div>
+</div>

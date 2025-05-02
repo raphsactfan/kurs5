@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="top-bar">
+    <button class="back-btn" (click)="goToMain()">← На главную</button>
+    <h2>Категории</h2>
+  </div>
+
+  <div class="top-bar">
+    <input [(ngModel)]="newCategoryName" placeholder="Новая категория" />
+    <button (click)="addCategory()">Добавить</button>
+  </div>
+
+  <ul>
+    <li *ngFor="let cat of categories">
+      <ng-container *ngIf="editingCategory?.id === cat.id; else viewMode">
+        <input [(ngModel)]="editingCategory!.name" />
+        <button (click)="saveCategory()">Сохранить</button>
+      </ng-container>
+
+      <ng-template #viewMode>
+        <span>{{ cat.name }}</span>
+        <div>
+          <button class="edit-btn" (click)="editCategory(cat)">Редактировать</button>
+          <button class="delete-btn" (click)="deleteCategory(cat.id)">Удалить</button>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+</div>

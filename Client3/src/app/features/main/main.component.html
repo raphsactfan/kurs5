@@ -1,0 +1,31 @@
+<h1 class="main-title">Главная страница</h1>
+
+<div class="sidebar">
+  <p>
+    {{ role === 'admin' ? 'Админ' : 'Пользователь' }}: {{ login }}
+  </p>
+
+  <ng-container *ngIf="role !== 'admin'">
+    <button class="sidebar-btn" (click)="goToUserOrders()">История заказов</button>
+    <button class="sidebar-btn" (click)="goToProfile()">Профиль</button>
+  </ng-container>
+
+  <button class="logout-btn" (click)="logout()">Выйти</button>
+</div>
+
+<div class="main-buttons">
+  <!-- Только для админа -->
+  <ng-container *ngIf="role === 'admin'">
+    <button class="tile-btn" (click)="goToCategories()">Категории</button>
+    <button class="tile-btn" (click)="goToUsers()">Пользователи</button>
+    <button class="tile-btn" (click)="goToAddresses()">Адреса</button>
+    <button class="tile-btn" (click)="goToSuppliers()">Поставщики</button>
+    <button class="tile-btn" (click)="goToProducts()">Товары</button>
+    <button class="tile-btn" (click)="goToOrders()">Заказы</button>
+    <button class="tile-btn" (click)="goToStatistics()">Статистика</button>
+    <button class="tile-btn" (click)="goToReports()">Отчёт по продажам</button>
+  </ng-container>
+
+  <!-- Только для пользователя -->
+  <button *ngIf="role === 'user'" class="catalog-btn" (click)="goToCatalog()">Перейти в каталог</button>
+</div>

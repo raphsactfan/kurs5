@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="top-bar">
+    <button class="back-btn" (click)="goToMain()">← На главную</button>
+    <h2>Пользователи</h2>
+  </div>
+
+  <div class="top-bar">
+    <input [(ngModel)]="search" placeholder="Поиск по логину" />
+    <select [(ngModel)]="sortBy">
+      <option value="">Без сортировки</option>
+      <option value="login">По логину</option>
+      <option value="role">По роли</option>
+    </select>
+    <button (click)="loadUsers()">Применить</button>
+  </div>
+
+  <div class="top-bar">
+    <input class="short-input" [(ngModel)]="newUser.login" placeholder="Логин" />
+    <input class="short-input" [(ngModel)]="newUser.password" placeholder="Пароль" type="password" />
+    <select [(ngModel)]="newUser.role">
+      <option value="user">user</option>
+      <option value="admin">admin</option>
+    </select>
+    <button (click)="addUser()">Добавить</button>
+  </div>
+
+  <ul>
+    <li *ngFor="let u of users">
+      <ng-container *ngIf="editingUser?.id === u.id; else viewMode">
+        <input [(ngModel)]="editingUser!.login" />
+        <input [(ngModel)]="editingUser!.password" placeholder="Пароль" type="password" />
+        <select [(ngModel)]="editingUser!.role">
+          <option value="user">user</option>
+          <option value="admin">admin</option>
+        </select>
+        <button (click)="saveUser()">Сохранить</button>
+        <button class="cancel-btn" (click)="cancelEdit()">Отмена</button>
+      </ng-container>
+
+      <ng-template #viewMode>
+        <span>{{ u.login }}</span>
+        <span>{{ u.role }}</span>
+        <div>
+          <button class="edit-btn" (click)="editUser(u)">Редактировать</button>
+          <button class="delete-btn" (click)="deleteUser(u.id)">Удалить</button>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,56 @@
+<h2 class="page-title">Оформление заказа</h2>
+
+<div class="order-form two-column">
+  <div class="form-fields">
+    <form (ngSubmit)="submitOrder()">
+      <div class="form-group">
+        <label>Страна:</label>
+        <input [(ngModel)]="address.country" name="country" required />
+      </div>
+
+      <div class="form-group">
+        <label>Город:</label>
+        <input [(ngModel)]="address.city" name="city" required />
+      </div>
+
+      <div class="form-group">
+        <label>Улица:</label>
+        <input [(ngModel)]="address.street" name="street" required (blur)="updateMapLocation()" />
+      </div>
+
+      <div class="cart-section">
+        <h3>Корзина:</h3>
+        <ul class="cart-list">
+          <li *ngFor="let item of cart">
+            {{ item.product.name }} — {{ item.quantity }} x {{ item.product.price }} =
+            <strong>{{ item.quantity * item.product.price }} BYN</strong>
+          </li>
+        </ul>
+        <p class="total"><strong>Итого: {{ getTotal() }} BYN</strong></p>
+      </div>
+
+      <div class="checkbox-row">
+        <span class="agreement-label">
+          Я согласен с <a href="#" (click)="showAgreement($event)">соглашением</a>
+        </span>
+        <input type="checkbox" [(ngModel)]="agreed" name="agreed" required />
+      </div>
+
+      <button type="submit" [disabled]="!agreed">Оплатить</button>
+    </form>
+  </div>
+
+  <div class="map-container">
+    <div id="map"></div>
+  </div>
+</div>
+
+<div *ngIf="showModal" class="modal">
+  <div class="modal-content">
+    <h3>Соглашение</h3>
+    <pre class="agreement-text">{{ agreementText }}</pre>
+    <button class="close-button" (click)="closeModal()">Закрыть</button>
+  </div>
+</div>
+
+<button class="back-button" (click)="goBack()">Назад в корзину</button>

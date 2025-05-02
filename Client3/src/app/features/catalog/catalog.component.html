@@ -1,0 +1,64 @@
+<div class="catalog-page">
+  <h2>Каталог товаров</h2>
+
+  <div class="top-bar">
+    <div class="controls">
+      <input [(ngModel)]="search" placeholder="Поиск..." (input)="loadProducts()" />
+
+      <select [(ngModel)]="sortBy" (change)="applyFilters()">
+        <option value="">Без сортировки</option>
+        <option value="name">По названию</option>
+        <option value="price">По цене</option>
+      </select>
+
+      <select [(ngModel)]="sortOrder" (change)="applyFilters()">
+        <option value="asc">▲</option>
+        <option value="desc">▼</option>
+      </select>
+
+      <select [(ngModel)]="selectedCategoryId" (change)="changeCategory(selectedCategoryId)">
+        <option [ngValue]="0">Все категории</option>
+        <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
+      </select>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="main-btn" (click)="goToMain()">На главную</button>
+      <button class="cart-btn" (click)="goToCart()">Перейти в корзину</button>
+    </div>
+  </div>
+
+  <table class="product-table" *ngIf="filteredProducts.length > 0">
+    <thead>
+    <tr>
+      <th>Название</th>
+      <th>Цена</th>
+      <th>Поставщик</th>
+      <th>Категория</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of filteredProducts">
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }} BYN</td>
+      <td>{{ product.supplier.name }}</td>
+      <td>{{ product.category.name }}</td>
+      <td>
+        <ng-container *ngIf="product.quantity > 0; else outOfStock">
+          <input type="number" min="1"
+                 [(ngModel)]="quantities[product.id]"
+                 (ngModelChange)="updateQuantity(product.id, $event)"
+                 placeholder="Кол-во" />
+          <button (click)="addToCart(product)">Добавить</button>
+        </ng-container>
+        <ng-template #outOfStock>
+          <span class="out-of-stock">Нет в наличии</span>
+        </ng-template>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="filteredProducts.length === 0" class="empty-msg">Товары не найдены</p>
+</div>

@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="top-bar">
+    <button class="back-btn" (click)="goToMain()">← На главную</button>
+    <h2>Адреса</h2>
+  </div>
+
+  <div class="top-bar">
+    <input [(ngModel)]="search" placeholder="Поиск по адресу" />
+    <select [(ngModel)]="sortBy">
+      <option value="">Без сортировки</option>
+      <option value="country">По стране</option>
+      <option value="city">По городу</option>
+      <option value="street">По улице</option>
+    </select>
+    <button (click)="loadAddresses()">Применить</button>
+  </div>
+
+  <ul>
+    <li *ngFor="let a of addresses">
+      <span>{{ a.country }}</span>
+      <span>{{ a.city }}</span>
+      <span>{{ a.street }}</span>
+    </li>
+  </ul>
+</div>
